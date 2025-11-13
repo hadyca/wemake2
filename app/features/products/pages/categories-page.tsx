@@ -1,27 +1,26 @@
-import type { Router } from "react-router";
+import { Hero } from "~/common/components/hero";
+import { CategoryCard } from "../components/category-card";
 import type { Route } from "./+types/categories-page";
 
-export function loader({ request, params }: Route.LoaderArgs) {
-  return {};
-}
-
-export async function action({ request, params }: Route.ActionArgs) {
-  return {};
-}
-
 export const meta: Route.MetaFunction = () => [
-  { title: "Product Categories" },
-  { name: "description", content: "Browse product categories" },
+  { title: "Categories | ProductHunt Clone" },
+  { name: "description", content: "Browse products by category" },
 ];
 
-export default function Component({
-  loaderData,
-}: Router.ComponentProps<typeof loader, typeof action>) {
+export default function CategoriesPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold">Categories</h1>
+    <div className="space-y-10">
+      <Hero title="Categories" subtitle="Browse products by category" />
+      <div className="grid grid-cols-4 gap-10">
+        {Array.from({ length: 10 }).map((_, index) => (
+          <CategoryCard
+            key={`categoryId-${index}`}
+            id={`categoryId-${index}`}
+            name="Category Name"
+            description="Category Description"
+          />
+        ))}
+      </div>
     </div>
   );
 }
-
-

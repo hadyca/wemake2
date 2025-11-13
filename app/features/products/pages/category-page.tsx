@@ -1,31 +1,37 @@
-import type { Router } from "react-router";
+import { Hero } from "~/common/components/hero";
+import { ProductCard } from "../components/product-card";
+import ProductPagination from "~/common/components/product-pagination";
 import type { Route } from "./+types/category-page";
 
-export function loader({ request, params }: Route.LoaderArgs) {
-  const { category } = params;
-  return { category };
-}
+export const meta = ({ params }: Route.MetaArgs) => {
+  return [
+    { title: `Developer Tools | ProductHunt Clone` },
+    { name: "description", content: `Browse Developer Tools products` },
+  ];
+};
 
-export async function action({ request, params }: Route.ActionArgs) {
-  return {};
-}
-
-export const meta: Route.MetaFunction = () => [
-  { title: "Category" },
-  { name: "description", content: "Products by category" },
-];
-
-export default function Component({
-  loaderData,
-}: Router.ComponentProps<typeof loader, typeof action>) {
+export default function CategoryPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold">Category</h1>
-      {loaderData?.category ? (
-        <p className="text-muted-foreground mt-2">Category: {loaderData.category}</p>
-      ) : null}
+    <div className="space-y-10">
+      <Hero
+        title={"Developer Tools"}
+        subtitle={`Tools for developers to build products faster`}
+      />
+
+      <div className="space-y-5 w-full max-w-screen-md mx-auto">
+        {Array.from({ length: 11 }).map((_, index) => (
+          <ProductCard
+            key={`productId-${index}`}
+            id={`productId-${index}`}
+            name="Product Name"
+            description="Product Description"
+            commentsCount={12}
+            viewsCount={12}
+            votesCount={120}
+          />
+        ))}
+      </div>
+      <ProductPagination totalPages={10} />
     </div>
   );
 }
-
-
