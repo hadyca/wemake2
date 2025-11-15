@@ -3,158 +3,170 @@ import type { Route } from "./+types/submit-job-page";
 import { Form } from "react-router";
 import InputPair from "~/common/components/input-pair";
 import SelectPair from "~/common/components/select-pair";
-import { Input } from "~/common/components/ui/input";
-import { Label } from "~/common/components/ui/label";
-import { useState } from "react";
+import { JOB_TYPES, LOCATION_TYPES, SALARY_RANGE } from "../constants";
 import { Button } from "~/common/components/ui/button";
 
 export const meta: Route.MetaFunction = () => {
   return [
-    { title: "Submit Job | wemake" },
-    { name: "description", content: "Submit a job posting" },
+    { title: "Post a Job | wemake" },
+    {
+      name: "description",
+      content: "Reach out to the best developers in the world",
+    },
   ];
 };
 
 export default function SubmitJobPage() {
-  const [logo, setLogo] = useState<string | null>(null);
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const file = event.target.files[0];
-      setLogo(URL.createObjectURL(file));
-    }
-  };
   return (
     <div>
       <Hero
-        title="Submit a Job"
-        subtitle="Share job opportunities with the community"
+        title="Post a Job"
+        subtitle="Reach out to the best developers in the world"
       />
-      <Form className="grid grid-cols-2 gap-10 max-w-screen-lg mx-auto">
-        <div className="space-y-5">
+      <Form className="max-w-screen-2xl flex flex-col items-center gap-10 mx-auto">
+        <div className="grid grid-cols-3 w-full gap-10">
           <InputPair
-            label="Job Title"
-            description="The title of the job position"
-            id="title"
-            name="title"
+            label="Position"
+            description="(40 characters max)"
+            name="position"
+            maxLength={40}
+            type="text"
+            id="position"
+            required
+            placeholder="i.e Senior React Developer"
+          />
+          <InputPair
+            id="overview"
+            label="Overview"
+            description="(400 characters max)"
+            name="overview"
+            maxLength={400}
             type="text"
             required
-            placeholder="e.g. Senior Full Stack Developer"
-          />
-          <InputPair
-            label="Company Name"
-            description="The name of the company"
-            id="company"
-            name="company"
-            required
-            type="text"
-            placeholder="Company name"
-          />
-          <InputPair
-            label="Company Website"
-            description="The URL of the company website"
-            id="companyUrl"
-            name="companyUrl"
-            required
-            type="url"
-            placeholder="https://example.com"
-          />
-          <InputPair
-            label="Company HQ Location"
-            description="The headquarters location of the company"
-            id="companyHq"
-            name="companyHq"
-            required
-            type="text"
-            placeholder="e.g. San Francisco, CA"
-          />
-          <InputPair
+            placeholder="i.e We are looking for a Senior React Developer"
             textArea
-            label="Job Description"
-            description="A detailed description of the job position"
-            id="description"
-            name="description"
-            required
-            type="text"
-            placeholder="Describe the job position, requirements, and responsibilities"
           />
           <InputPair
-            label="Salary Range"
-            description="The salary range for this position"
-            id="salary"
-            name="salary"
-            required
+            id="responsibilities"
+            label="Responsibilities"
+            description="(400 characters max, comma separated)"
+            name="responsibilities"
+            maxLength={400}
             type="text"
-            placeholder="e.g. $120k - $150k"
+            required
+            placeholder="i.e Implement new features, Maintain code quality, etc."
+            textArea
+          />
+          <InputPair
+            id="qualifications"
+            label="Qualifications"
+            description="(400 characters max, comma separated)"
+            name="qualifications"
+            maxLength={400}
+            type="text"
+            required
+            placeholder="i.e 3+ years of experience, Strong TypeScript skills, etc."
+            textArea
+          />
+          <InputPair
+            id="benefits"
+            label="Benefits"
+            description="(400 characters max, comma separated)"
+            name="benefits"
+            maxLength={400}
+            type="text"
+            required
+            placeholder="i.e Flexible working hours, Health insurance, etc."
+            textArea
+          />
+          <InputPair
+            id="skills"
+            label="Skills"
+            description="(400 characters max, comma separated)"
+            name="skills"
+            maxLength={400}
+            type="text"
+            required
+            placeholder="i.e React, TypeScript, etc."
+            textArea
+          />
+          <InputPair
+            id="companyName"
+            label="Company Name"
+            description="(40 characters max)"
+            name="companyName"
+            maxLength={40}
+            type="text"
+            required
+            placeholder="i.e wemake"
+          />
+          <InputPair
+            id="companyLogoUrl"
+            label="Company Logo URL"
+            description="(40 characters max)"
+            name="companyLogoUrl"
+            type="url"
+            required
+            placeholder="i.e https://wemake.services/logo.png"
+          />
+          <InputPair
+            id="companyLocation"
+            label="Company Location"
+            description="(40 characters max)"
+            name="companyLocation"
+            maxLength={40}
+            type="text"
+            required
+            placeholder="i.e Remote, New York, etc."
+          />
+          <InputPair
+            id="applyUrl"
+            label="Apply URL"
+            description="(40 characters max)"
+            name="applyUrl"
+            maxLength={40}
+            type="url"
+            required
+            placeholder="i.e https://wemake.services/apply"
           />
           <SelectPair
             label="Job Type"
-            description="The type of employment"
-            name="type"
+            description="Select the type of job"
+            name="jobType"
             required
-            placeholder="Select job type"
-            options={[
-              { label: "Full-time", value: "full-time" },
-              { label: "Part-time", value: "part-time" },
-              { label: "Contract", value: "contract" },
-              { label: "Internship", value: "internship" },
-            ]}
+            placeholder="Select the type of job"
+            options={JOB_TYPES.map((type) => ({
+              label: type.label,
+              value: type.value,
+            }))}
           />
           <SelectPair
-            label="Position Location"
-            description="Where the position is located"
-            name="positionLocation"
+            label="Job Location"
+            description="Select the location of the job"
+            name="jobLocation"
             required
-            placeholder="Select location type"
-            options={[
-              { label: "Remote", value: "remote" },
-              { label: "On-site", value: "on-site" },
-              { label: "Hybrid", value: "hybrid" },
-            ]}
+            placeholder="Select the location of the job"
+            options={LOCATION_TYPES.map((location) => ({
+              label: location.label,
+              value: location.value,
+            }))}
           />
-          <InputPair
-            label="Application URL"
-            description="The URL where candidates can apply"
-            id="applicationUrl"
-            name="applicationUrl"
+          <SelectPair
+            label="Salary Range"
+            description="Select the salary range of the job"
+            name="salaryRange"
             required
-            type="url"
-            placeholder="https://example.com/apply"
+            placeholder="Select the salary range of the job"
+            options={SALARY_RANGE.map((salary) => ({
+              label: salary,
+              value: salary,
+            }))}
           />
-          <Button type="submit" className="w-full" size="lg">
-            Submit Job
-          </Button>
         </div>
-        <div className="flex flex-col space-y-2">
-          <div className="size-40 rounded-xl shadow-xl overflow-hidden">
-            {logo ? (
-              <img src={logo} className="object-cover w-full h-full" />
-            ) : null}
-          </div>
-          <Label className="flex flex-col gap-1">
-            Company Logo
-            <small className="text-muted-foreground">
-              This is the logo of the company.
-            </small>
-          </Label>
-          <Input
-            type="file"
-            className="w-1/2"
-            onChange={onChange}
-            required
-            name="logo"
-          />
-          <div className="flex flex-col text-xs">
-            <span className="text-muted-foreground">
-              Recommended size: 128x128px
-            </span>
-            <span className="text-muted-foreground">
-              Allowed formats: PNG, JPEG
-            </span>
-            <span className="text-muted-foreground">Max file size: 1MB</span>
-          </div>
-        </div>
+        <Button type="submit" className="w-full max-w-sm" size="lg">
+          Post job for $100
+        </Button>
       </Form>
     </div>
   );
 }
-
