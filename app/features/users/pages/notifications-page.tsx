@@ -1,25 +1,24 @@
-import { Hero } from "~/common/components/hero";
 import type { Route } from "./+types/notifications-page";
+import { NotificationCard } from "../components/notification-card";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Notifications | wemake" }];
 };
 
-export function loader({ request }: Route.LoaderArgs) {
-  return {};
-}
-
-export function action({ request }: Route.ActionArgs) {
-  return {};
-}
-
-export default function NotificationsPage({
-  loaderData,
-}: Route.ComponentProps) {
+export default function NotificationsPage() {
   return (
-    <div className="space-y-10">
-      <Hero title="Notifications" subtitle="Your notifications" />
+    <div className="space-y-20">
+      <h1 className="text-4xl font-bold">Notifications</h1>
+      <div className="flex flex-col items-start gap-5">
+        <NotificationCard
+          avatarUrl="https://github.com/serranoarevalo.png"
+          avatarFallback="S"
+          userName="Steve Jobs"
+          message=" followed you."
+          timestamp="2 days ago"
+          seen={false}
+        />
+      </div>
     </div>
   );
 }
-
