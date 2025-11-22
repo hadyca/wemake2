@@ -1,9 +1,49 @@
 {
-  "id": "7db5c2e5-642f-404c-b00f-332b4724b143",
-  "prevId": "fc4e46cb-8899-41c6-85ec-f890420618f6",
+  "id": "ca179616-c031-403d-bd19-7c015b188ff0",
+  "prevId": "7db5c2e5-642f-404c-b00f-332b4724b143",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.events": {
+      "name": "events",
+      "schema": "",
+      "columns": {
+        "event_id": {
+          "name": "event_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "event_type": {
+          "name": "event_type",
+          "type": "event_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "event_data": {
+          "name": "event_data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.post_replies": {
       "name": "post_replies",
       "schema": "",
@@ -1525,6 +1565,15 @@
     }
   },
   "enums": {
+    "public.event_type": {
+      "name": "event_type",
+      "schema": "public",
+      "values": [
+        "product_view",
+        "product_visit",
+        "profile_view"
+      ]
+    },
     "public.job_type": {
       "name": "job_type",
       "schema": "public",
