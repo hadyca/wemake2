@@ -1,7 +1,12 @@
-import client from "~/supa-client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "~/supa-client";
 import { productListSelect } from "../products/queries";
+import { redirect } from "react-router";
 
-export const getUserProfile = async (username: string) => {
+export const getUserProfile = async (
+  client: SupabaseClient<Database>,
+  { username }: { username: string }
+) => {
   const { data, error } = await client
     .from("profiles")
     .select(
@@ -23,7 +28,32 @@ export const getUserProfile = async (username: string) => {
   return data;
 };
 
-export const getUserProducts = async (username: string) => {
+export const getUserById = async (
+  client: SupabaseClient<Database>,
+  { id }: { id: string }
+) => {
+  const { data, error } = await client
+    .from("profiles")
+    .select(
+      `
+        profile_id,
+        name,
+        username,
+        avatar 
+        `
+    )
+    .eq("profile_id", id)
+    .single();
+  if (error) {
+    throw error;
+  }
+  return data;
+};
+
+export const getUserProducts = async (
+  client: SupabaseClient<Database>,
+  { username }: { username: string }
+) => {
   const { data, error } = await client
     .from("products")
     .select(
@@ -41,7 +71,10 @@ export const getUserProducts = async (username: string) => {
   return data;
 };
 
-export const getUserPosts = async (username: string) => {
+export const getUserPosts = async (
+  client: SupabaseClient<Database>,
+  { username }: { username: string }
+) => {
   const { data, error } = await client
     .from("community_post_list_view")
     .select("*")
@@ -50,4 +83,12 @@ export const getUserPosts = async (username: string) => {
     throw error;
   }
   return data;
+};
+
+export const getLoggedInUserId = async (client: SupabaseClient<Database>) => {
+  const { data, error } = await client.auth.getUser();
+  if (error || data.user === null) {
+    throw redirect("/auth/login");
+  }
+  return data.user.id;
 };

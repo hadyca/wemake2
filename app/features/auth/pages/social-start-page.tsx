@@ -1,33 +1,33 @@
+import { z } from "zod";
 import type { Route } from "./+types/social-start-page";
-import { useParams } from "react-router";
+import { redirect } from "react-router";
+import { makeSSRClient } from "~/supa-client";
 
-export const meta: Route.MetaFunction = () => {
-  return [
-    { title: "Social Login Start | wemake" },
-    { name: "description", content: "Start social authentication" },
-  ];
+const paramsSchema = z.object({
+  provider: z.enum(["github", "kakao"]),
+});
+
+export const loader = async ({ params, request }: Route.LoaderArgs) => {
+  const { success, data } = paramsSchema.safeParse(params);
+  if (!success) {
+    return redirect("/auth/login");
+  }
+  const { provider } = data;
+  const redirectTo = `http://localhost:5173/auth/social/${provider}/complete`;
+  const { client, headers } = makeSSRClient(request);
+  const {
+    data: { url },
+    error,
+  } = await client.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo,
+    },
+  });
+  if (url) {
+    return redirect(url, { headers });
+  }
+  if (error) {
+    throw error;
+  }
 };
-
-export function loader({ request, params }: Route.LoaderArgs) {
-  return {};
-}
-
-export function action({ request, params }: Route.ActionArgs) {
-  return {};
-}
-
-export default function SocialStartPage() {
-  const { provider } = useParams();
-  
-  return (
-    <div className="space-y-10">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-bold">Social Login</h1>
-        <p className="text-muted-foreground">
-          Redirecting to {provider} authentication...
-        </p>
-      </div>
-    </div>
-  );
-}
-
