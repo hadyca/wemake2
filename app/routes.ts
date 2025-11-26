@@ -80,6 +80,7 @@ export default [
   ...prefix("/community", [
     index("features/community/pages/community-page.tsx"),
     route("/:postId", "features/community/pages/post-page.tsx"),
+    route("/:postId/upvote", "features/community/pages/upvote-post-page.tsx"),
     route("/submit", "features/community/pages/submit-post-page.tsx"),
   ]),
   ...prefix("/teams", [
@@ -107,6 +108,10 @@ export default [
     route("/profile", "features/users/pages/my-profile-page.tsx"),
     route("/settings", "features/users/pages/settings-page.tsx"),
     route("/notifications", "features/users/pages/notifications-page.tsx"),
+    route(
+      "/notifications/:notificationId/see",
+      "features/users/pages/see-notification-page.tsx"
+    ),
   ]),
   ...prefix("/users/:username", [
     layout("features/users/layouts/profile-layout.tsx", [

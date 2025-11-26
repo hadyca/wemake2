@@ -15,6 +15,7 @@ export default function SelectPair({
   description,
   placeholder,
   options,
+  defaultValue,
 }: {
   label: string;
   description: string;
@@ -25,14 +26,12 @@ export default function SelectPair({
     label: string;
     value: string;
   }[];
+  defaultValue?: string;
 }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="space-y-2 flex flex-col w-full">
-      <Label
-        className="flex flex-col gap-1 items-start"
-        onClick={() => setOpen(true)}
-      >
+      <Label className="flex flex-col gap-1" onClick={() => setOpen(true)}>
         {label}
         <small className="text-muted-foreground">{description}</small>
       </Label>
@@ -41,6 +40,7 @@ export default function SelectPair({
         onOpenChange={setOpen}
         name={name}
         required={required}
+        defaultValue={defaultValue}
       >
         <SelectTrigger>
           <SelectValue placeholder={placeholder} />

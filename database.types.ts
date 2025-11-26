@@ -592,7 +592,7 @@ export type Database = {
       }
       products: {
         Row: {
-          category_id: number | null
+          category_id: number
           created_at: string
           description: string
           how_it_works: string
@@ -606,7 +606,7 @@ export type Database = {
           url: string
         }
         Insert: {
-          category_id?: number | null
+          category_id: number
           created_at?: string
           description: string
           how_it_works: string
@@ -620,7 +620,7 @@ export type Database = {
           url: string
         }
         Update: {
-          category_id?: number | null
+          category_id?: number
           created_at?: string
           description?: string
           how_it_works?: string
@@ -640,6 +640,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "categories"
             referencedColumns: ["category_id"]
+          },
+          {
+            foreignKeyName: "products_profile_id_profiles_profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "products_to_profiles"
@@ -695,8 +702,8 @@ export type Database = {
       reviews: {
         Row: {
           created_at: string
-          product_id: number | null
-          profile_id: string | null
+          product_id: number
+          profile_id: string
           rating: number
           review: string
           review_id: number
@@ -704,8 +711,8 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          product_id?: number | null
-          profile_id?: string | null
+          product_id: number
+          profile_id: string
           rating: number
           review: string
           review_id?: never
@@ -713,8 +720,8 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          product_id?: number | null
-          profile_id?: string | null
+          product_id?: number
+          profile_id?: string
           rating?: number
           review?: string
           review_id?: never
@@ -822,6 +829,7 @@ export type Database = {
           author_role: Database["public"]["Enums"]["role"] | null
           content: string | null
           created_at: string | null
+          is_upvoted: boolean | null
           post_id: number | null
           products: number | null
           replies: number | null
@@ -839,6 +847,7 @@ export type Database = {
           author_avatar: string | null
           author_username: string | null
           created_at: string | null
+          is_upvoted: boolean | null
           post_id: number | null
           title: string | null
           topic: string | null
@@ -876,6 +885,13 @@ export type Database = {
       }
     }
     Functions: {
+      get_dashboard_stats: {
+        Args: { user_id: string }
+        Returns: {
+          month: string
+          views: number
+        }[]
+      }
       track_event: {
         Args: {
           event_data: Json

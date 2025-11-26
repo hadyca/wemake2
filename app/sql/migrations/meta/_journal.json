@@ -106,6 +106,20 @@
       "when": 1763972893098,
       "tag": "0014_real_pride",
       "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1764120740234,
+      "tag": "0015_aromatic_gamma_corps",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1764131473478,
+      "tag": "0016_jazzy_freak",
+      "breakpoints": true
     }
   ]
 }
