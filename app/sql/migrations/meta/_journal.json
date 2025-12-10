@@ -120,6 +120,20 @@
       "when": 1764131473478,
       "tag": "0016_jazzy_freak",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1764579780449,
+      "tag": "0017_gorgeous_trauma",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1765159091849,
+      "tag": "0018_windy_manta",
+      "breakpoints": true
     }
   ]
 }
